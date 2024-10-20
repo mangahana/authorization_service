@@ -11,6 +11,12 @@ CREATE TABLE users (
 );
 
 
+CREATE TABLE phone_block_list (
+  phone       VARCHAR(10) UNIQUE NOT NULL,
+  created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
 CREATE TABLE confirmation_codes (
   code        VARCHAR(6) UNIQUE NOT NULL,
   phone       VARCHAR(10) NOT NULL,
