@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"authorization_service/internal/core/dto"
+	"authorization_service/internal/core/models"
 	"context"
 )
 
@@ -9,6 +10,8 @@ type Repository interface {
 	Create(c context.Context, dto *dto.Register) (int, error)
 	CreateConfirmationCode(c context.Context, phone, code, ip string) error
 	CreateSession(c context.Context, userId int) (string, error)
+
+	GetCredentialsByPhone(c context.Context, phone string) (models.LoginCredentials, error)
 
 	IsUsernameExists(c context.Context, username string) (bool, error)
 	IsPhoneExists(c context.Context, phone string) (bool, error)

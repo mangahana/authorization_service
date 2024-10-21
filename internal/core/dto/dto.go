@@ -15,3 +15,8 @@ type Register struct {
 	Username         string `json:"username" validate:"required"`
 	Password         string `json:"password" validate:"required,min=8"`
 }
+
+type Login struct {
+	Phone    string `json:"phone" validate:"required,min=10,max=10"`
+	Password string `json:"password" validate:"required"`
+}
