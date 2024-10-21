@@ -15,6 +15,7 @@ type UseCase interface {
 	IsPhoneExists(c context.Context, phone string) (bool, error)
 
 	GetUserByID(c context.Context, id int) (models.User, error)
+	GetMe(c context.Context, token string) (models.UserSession, error)
 }
 
 type useCase struct {

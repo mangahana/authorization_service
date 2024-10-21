@@ -13,6 +13,7 @@ type Repository interface {
 
 	GetUserByID(c context.Context, id int) (models.User, error)
 	GetCredentialsByPhone(c context.Context, phone string) (models.LoginCredentials, error)
+	GetByToken(c context.Context, token string) (models.UserSession, error)
 
 	IsUsernameExists(c context.Context, username string) (bool, error)
 	IsPhoneExists(c context.Context, phone string) (bool, error)

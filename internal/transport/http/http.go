@@ -47,4 +47,8 @@ func (h *HttpServer) Register() {
 	api.POST("/login", controller.Login)
 
 	//
+
+	private := api.Group("", h.AuthenticateMiddleware)
+
+	private.GET("/get_me", controller.GetMe)
 }
