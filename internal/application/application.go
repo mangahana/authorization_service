@@ -8,6 +8,7 @@ import (
 
 type UseCase interface {
 	Join(c context.Context, ip string, dto *dto.Join) error
+	ConfirmPhone(c context.Context, dto *dto.ConfirmPhone) error
 }
 
 type useCase struct {
