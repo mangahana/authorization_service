@@ -1,16 +1,19 @@
 package application
 
 import (
+	"authorization_service/internal/core/dto"
 	"authorization_service/internal/infrastructure"
+	"context"
 )
 
 type UseCase interface {
+	Join(c context.Context, ip string, dto *dto.Join) error
 }
 
 type useCase struct {
-	repository infrastructure.Repository
-	sms        infrastructure.SMS
-	s3         infrastructure.S3
+	repo infrastructure.Repository
+	sms  infrastructure.SMS
+	s3   infrastructure.S3
 }
 
 func New(
@@ -19,8 +22,8 @@ func New(
 	s3 infrastructure.S3,
 ) *useCase {
 	return &useCase{
-		repository: repository,
-		sms:        sms,
-		s3:         s3,
+		repo: repository,
+		sms:  sms,
+		s3:   s3,
 	}
 }

@@ -2,6 +2,7 @@ package http
 
 import (
 	"authorization_service/internal/application"
+	"authorization_service/internal/transport/http/controller"
 	"context"
 
 	"github.com/labstack/echo/v4"
@@ -32,7 +33,12 @@ func (h *HttpServer) Register() {
 	h.server.Use(middleware.CORS())
 	h.server.Use(middleware.BodyLimit("10M"))
 
-	// controller := controller.New(h.useCase)
+	controller := controller.New(h.useCase)
 
-	// api := h.server.Group("/api/v1/authorization")
+	//
+	api := h.server.Group("/api/v1/authorization")
+
+	api.POST("/join", controller.Join)
+
+	//
 }
