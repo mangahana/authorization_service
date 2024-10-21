@@ -2,6 +2,7 @@ package application
 
 import (
 	"authorization_service/internal/core/dto"
+	"authorization_service/internal/core/models"
 	"authorization_service/internal/infrastructure"
 	"context"
 )
@@ -12,6 +13,8 @@ type UseCase interface {
 	Register(c context.Context, dto *dto.Register) (string, error)
 	Login(c context.Context, dto *dto.Login) (string, error)
 	IsPhoneExists(c context.Context, phone string) (bool, error)
+
+	GetUserByID(c context.Context, id int) (models.User, error)
 }
 
 type useCase struct {

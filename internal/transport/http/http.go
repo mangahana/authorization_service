@@ -39,6 +39,7 @@ func (h *HttpServer) Register() {
 	api := h.server.Group("/api/v1/authorization")
 
 	api.GET("/is_phone_exists", controller.IsPhoneExists)
+	api.GET("/get_user", controller.GetByID)
 
 	api.POST("/join", controller.Join)
 	api.POST("/confirm_phone", controller.ConfirmPhone)

@@ -11,6 +11,7 @@ type Repository interface {
 	CreateConfirmationCode(c context.Context, phone, code, ip string) error
 	CreateSession(c context.Context, userId int) (string, error)
 
+	GetUserByID(c context.Context, id int) (models.User, error)
 	GetCredentialsByPhone(c context.Context, phone string) (models.LoginCredentials, error)
 
 	IsUsernameExists(c context.Context, username string) (bool, error)
