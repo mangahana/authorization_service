@@ -11,6 +11,7 @@ type UseCase interface {
 	ConfirmPhone(c context.Context, dto *dto.ConfirmPhone) error
 	Register(c context.Context, dto *dto.Register) (string, error)
 	Login(c context.Context, dto *dto.Login) (string, error)
+	IsPhoneExists(c context.Context, phone string) (bool, error)
 }
 
 type useCase struct {

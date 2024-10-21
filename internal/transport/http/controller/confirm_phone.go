@@ -21,5 +21,5 @@ func (h *controller) ConfirmPhone(c echo.Context) error {
 		return c.JSON(400, err)
 	}
 
-	return c.JSON(200, "OK")
+	return c.String(200, "OK")
 }
