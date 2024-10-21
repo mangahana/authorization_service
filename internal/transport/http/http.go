@@ -40,6 +40,7 @@ func (h *HttpServer) Register() {
 
 	api.POST("/join", controller.Join)
 	api.POST("/confirm_phone", controller.ConfirmPhone)
+	api.POST("/register", controller.Register)
 
 	//
 }

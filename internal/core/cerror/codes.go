@@ -14,4 +14,7 @@ const (
 	PHONE_USED                = "PHONE_USED"
 	PHONE_BLOCKED             = "PHONE_BLOCKED"
 	CODE_SENT                 = "CODE_SENT"
+	USERNAME_USED             = "USERNAME_USED"
+	USERNAME_INVALID          = "USERNAME_INVALID"
+	PASSWORD_TOO_SHORT        = "PASSWORD_TOO_SHORT"
 )
