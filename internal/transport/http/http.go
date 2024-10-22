@@ -53,4 +53,5 @@ func (h *HttpServer) Register() {
 	private.GET("/get_me", controller.GetMe)
 
 	private.PATCH("/update", controller.Update)
+	private.PATCH("/change_password", controller.ChangePassword)
 }

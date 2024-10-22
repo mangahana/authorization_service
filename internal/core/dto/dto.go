@@ -25,3 +25,8 @@ type Update struct {
 	Username    string `json:"username" validate:"required,min=3"`
 	Description string `json:"description"`
 }
+
+type ChangePassword struct {
+	OldPassword string `json:"old_password" validate:"required"`
+	NewPassword string `json:"new_password" validate:"required,min=8"`
+}

@@ -18,6 +18,7 @@ type UseCase interface {
 	GetMe(c context.Context, token string) (models.UserSession, error)
 
 	UpdateUser(c context.Context, user *models.UserSession, dto *dto.Update) error
+	UpdatePassword(c context.Context, user *models.UserSession, dto *dto.ChangePassword) error
 }
 
 type useCase struct {

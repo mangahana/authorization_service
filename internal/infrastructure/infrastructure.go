@@ -13,6 +13,7 @@ type Repository interface {
 
 	GetUserByID(c context.Context, id int) (models.User, error)
 	GetCredentialsByPhone(c context.Context, phone string) (models.LoginCredentials, error)
+	GetPasswordByID(c context.Context, id int) (string, error)
 	GetByToken(c context.Context, token string) (models.UserSession, error)
 	GetUserIDbyUsername(c context.Context, username string) (int, error)
 
@@ -27,6 +28,7 @@ type Repository interface {
 	IsIpBlocked(c context.Context, ip string) (bool, error)
 
 	UpdateUser(c context.Context, userId int, dto *dto.Update) error
+	UpdatePassword(c context.Context, userId int, password string) error
 
 	DeleteCodesByPhone(c context.Context, phone string) error
 
