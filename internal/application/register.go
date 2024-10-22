@@ -4,7 +4,6 @@ import (
 	"authorization_service/internal/core/cerror"
 	"authorization_service/internal/core/dto"
 	"context"
-	"regexp"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -18,13 +17,8 @@ func (u *useCase) Register(c context.Context, input *dto.Register) (string, erro
 		return "", err
 	}
 
-	regex, err := regexp.Compile("^[a-zA-Z0-9]+(_?[a-zA-Z0-9]+)*$")
-	if err != nil {
+	if err := checkUsername(input.Username); err != nil {
 		return "", err
-	}
-
-	if !regex.Match([]byte(input.Username)) {
-		return "", cerror.New(cerror.USERNAME_INVALID, "username is not valid")
 	}
 
 	usernameExists, err := u.repo.IsUsernameExists(c, input.Username)

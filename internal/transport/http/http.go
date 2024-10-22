@@ -51,4 +51,6 @@ func (h *HttpServer) Register() {
 	private := api.Group("", h.AuthenticateMiddleware)
 
 	private.GET("/get_me", controller.GetMe)
+
+	private.PATCH("/update", controller.Update)
 }

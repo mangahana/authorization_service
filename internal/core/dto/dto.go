@@ -20,3 +20,8 @@ type Login struct {
 	Phone    string `json:"phone" validate:"required,min=10,max=10"`
 	Password string `json:"password" validate:"required"`
 }
+
+type Update struct {
+	Username    string `json:"username" validate:"required,min=3"`
+	Description string `json:"description"`
+}

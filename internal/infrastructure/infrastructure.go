@@ -14,6 +14,7 @@ type Repository interface {
 	GetUserByID(c context.Context, id int) (models.User, error)
 	GetCredentialsByPhone(c context.Context, phone string) (models.LoginCredentials, error)
 	GetByToken(c context.Context, token string) (models.UserSession, error)
+	GetUserIDbyUsername(c context.Context, username string) (int, error)
 
 	IsUsernameExists(c context.Context, username string) (bool, error)
 	IsPhoneExists(c context.Context, phone string) (bool, error)
@@ -24,6 +25,8 @@ type Repository interface {
 	CodesCountLastHourByIP(c context.Context, ip string) (int, error)
 	AddIPblock(c context.Context, ip string) error
 	IsIpBlocked(c context.Context, ip string) (bool, error)
+
+	UpdateUser(c context.Context, userId int, dto *dto.Update) error
 
 	DeleteCodesByPhone(c context.Context, phone string) error
 
