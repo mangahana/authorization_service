@@ -1,0 +1,61 @@
+name: CI/CD pipeline
+
+on:
+  push: 
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Remove old files
+        run: |
+          ssh -o StrictHostKeyChecking=no github-action-user@${{ secrets.SERVER_IP }} "cd ./authorization_service && rm -rf *"
+        
+      - name: Copy files via SCP
+        run: |
+          scp -r -o StrictHostKeyChecking=no ./* github-action-user@${{ secrets.SERVER_IP }}:/home/github-action-user/users_service
+
+      - name: Remove old container
+        run: |
+          ssh github-action-user@${{ secrets.SERVER_IP }} "docker rm -f authorization_service"
+
+      - name: Remove old image
+        run: |
+          ssh github-action-user@${{ secrets.SERVER_IP }} "docker image rm -f authorization_service"
+
+      - name: Build container
+        run: |
+          ssh github-action-user@${{ secrets.SERVER_IP }} "docker build -t authorization_service ./authorization_service"
+
+      - name: Run container
+        run: |
+         ssh github-action-user@${{ secrets.SERVER_IP }} "docker run --name authorization_service -d --network=host --restart=always \
+          -v /var/www/static:/app/uploads \
+          -e HTTP_SOCKET=${{ secrets.HTTP_SOCKET }} \
+          -e GRPC_SOCKET=${{ secrets.GRPC_SOCKET }} \
+          -e DB_HOST=${{ secrets.DB_HOST }} \
+          -e DB_NAME=${{ secrets.DB_NAME }} \
+          -e DB_USER=${{ secrets.DB_USER }} \
+          -e DB_PASS=${{ secrets.DB_PASS }} \
+          -e SMS_API_KEY=${{ secrets.SMS_API_KEY }} \
+          -e SMS_API_DOMAIN=${{ secrets.SMS_API_DOMAIN }} \
+          -e S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }} \
+          -e S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }} \
+          -e S3_ENDPOINT=${{ secrets.S3_ENDPOINT }} \
+          -e S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} \
+          -e S3_USE_SSL=${{ secrets.S3_USE_SSL }} \
+          -e AMQP_HOST=${{ secrets.AMQP_HOST }} \
+          -e AMQP_USER=${{ secrets.AMQP_USER }} \
+          -e AMQP_PASS=${{ secrets.AMQP_PASS }} \
+          users_service"
