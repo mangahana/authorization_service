@@ -19,6 +19,7 @@ type UseCase interface {
 
 	UpdateUser(c context.Context, user *models.UserSession, dto *dto.Update) error
 	UpdatePassword(c context.Context, user *models.UserSession, dto *dto.ChangePassword) error
+	UpdatePhoto(c context.Context, user *models.UserSession, file []byte) error
 }
 
 type useCase struct {

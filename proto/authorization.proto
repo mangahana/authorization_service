@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "./authorization_proto";
+
+package authorization_proto;
+
+service Authorization {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+}
+
+message GetUserRequest {
+  string access_token = 1;
+}
+
+message GetUserResponse {
+  int32 ID                   = 1;
+	string username             = 2;
+	string photo                = 3;
+	bool is_banned              = 4;
+	repeated string permissions = 5; 
+}

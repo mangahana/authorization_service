@@ -29,6 +29,7 @@ type Repository interface {
 
 	UpdateUser(c context.Context, userId int, dto *dto.Update) error
 	UpdatePassword(c context.Context, userId int, password string) error
+	UpdatePhoto(c context.Context, userId int, filename string) error
 
 	DeleteCodesByPhone(c context.Context, phone string) error
 

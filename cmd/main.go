@@ -6,6 +6,7 @@ import (
 	"authorization_service/internal/infrastructure/repository"
 	"authorization_service/internal/infrastructure/s3"
 	"authorization_service/internal/infrastructure/sms"
+	"authorization_service/internal/transport/grpc"
 	"authorization_service/internal/transport/http"
 	"context"
 	"log"
@@ -39,6 +40,9 @@ func main() {
 	httpServer.Register()
 
 	go httpServer.ListenAndServe(cfg.Server.HttpSocket)
+
+	grpcServer := grpc.New(useCase)
+	go grpcServer.Run(cfg.Server.GrpcSocket)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)

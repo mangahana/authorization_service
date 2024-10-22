@@ -4,7 +4,7 @@ CREATE TABLE users (
   phone       VARCHAR(10) UNIQUE NOT NULL,
   password    VARCHAR(256) NOT NULL,
   description TEXT DEFAULT '',
-  photo       TEXT,
+  photo       TEXT DEFAULT '',
   role_id     INT DEFAULT 1,
   is_banned   BOOLEAN NOT NULL DEFAULT FALSE,
   created_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP 
