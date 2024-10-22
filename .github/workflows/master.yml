@@ -24,7 +24,7 @@ jobs:
         
       - name: Copy files via SCP
         run: |
-          scp -r -o StrictHostKeyChecking=no ./* github-action-user@${{ secrets.SERVER_IP }}:/home/github-action-user/users_service
+          scp -r -o StrictHostKeyChecking=no ./* github-action-user@${{ secrets.SERVER_IP }}:/home/github-action-user/authorization_service
 
       - name: Remove old container
         run: |
@@ -58,4 +58,4 @@ jobs:
           -e AMQP_HOST=${{ secrets.AMQP_HOST }} \
           -e AMQP_USER=${{ secrets.AMQP_USER }} \
           -e AMQP_PASS=${{ secrets.AMQP_PASS }} \
-          users_service"
+          authorization_service"
