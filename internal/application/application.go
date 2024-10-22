@@ -22,20 +22,27 @@ type UseCase interface {
 	UpdatePhoto(c context.Context, user *models.UserSession, file []byte) error
 }
 
+type AMQP interface {
+	SendUserUpdateEvent(data models.UpdateUserEvent) error
+}
+
 type useCase struct {
 	repo infrastructure.Repository
 	sms  infrastructure.SMS
 	s3   infrastructure.S3
+	amqp AMQP
 }
 
 func New(
 	repository infrastructure.Repository,
 	sms infrastructure.SMS,
 	s3 infrastructure.S3,
+	amqp AMQP,
 ) *useCase {
 	return &useCase{
 		repo: repository,
 		sms:  sms,
 		s3:   s3,
+		amqp: amqp,
 	}
 }

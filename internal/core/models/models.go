@@ -20,3 +20,9 @@ type LoginCredentials struct {
 	UserID   int
 	Password string
 }
+
+type UpdateUserEvent struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Photo    string `json:"photo"`
+}
