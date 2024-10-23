@@ -26,5 +26,16 @@ func (u *useCase) UpdateUser(c context.Context, user *models.UserSession, dto *d
 		}
 	}
 
-	return u.repo.UpdateUser(c, user.ID, dto)
+	if err := u.repo.UpdateUser(c, user.ID, dto); err != nil {
+		return err
+	}
+
+	input := models.UpdateUserEvent{
+		ID:       user.ID,
+		Username: dto.Username,
+		Photo:    user.Photo,
+	}
+	u.amqp.SendUserUpdateEvent(input)
+
+	return nil
 }
