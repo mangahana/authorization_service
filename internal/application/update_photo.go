@@ -1,6 +1,7 @@
 package application
 
 import (
+	"authorization_service/internal/core/cerror"
 	"authorization_service/internal/core/models"
 	"bytes"
 	"context"
@@ -21,7 +22,7 @@ func (u *useCase) UpdatePhoto(c context.Context, user *models.UserSession, file 
 	mime := http.DetectContentType(file)
 
 	if !slices.Contains(supportedFormats, mime) {
-
+		return cerror.New(cerror.UNSUPPORTED_FORMAT, "UNSUPPORTED_FORMAT")
 	}
 
 	resized, err := thumbnail(file, 512)
@@ -34,7 +35,18 @@ func (u *useCase) UpdatePhoto(c context.Context, user *models.UserSession, file 
 		return err
 	}
 
-	return u.repo.UpdatePhoto(c, user.ID, filename)
+	if err := u.repo.UpdatePhoto(c, user.ID, filename); err != nil {
+		return err
+	}
+
+	input := models.UpdateUserEvent{
+		ID:       user.ID,
+		Username: user.Username,
+		Photo:    filename,
+	}
+	u.amqp.SendUserUpdateEvent(input)
+
+	return nil
 }
 
 func thumbnail(file []byte, width int) ([]byte, error) {
