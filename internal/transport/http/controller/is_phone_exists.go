@@ -18,8 +18,8 @@ func (h *controller) IsPhoneExists(c echo.Context) error {
 	}
 
 	if exists {
-		return c.String(200, "OK")
+		return c.JSON(200, true)
 	} else {
-		return c.String(400, "not exists")
+		return c.JSON(200, false)
 	}
 }
