@@ -18,9 +18,10 @@ func (h *controller) UpdatePhoto(c echo.Context) error {
 		return c.JSON(401, err)
 	}
 
-	if err := h.useCase.UpdatePhoto(c.Request().Context(), &user, file); err != nil {
+	filename, err := h.useCase.UpdatePhoto(c.Request().Context(), &user, file)
+	if err != nil {
 		return c.JSON(400, err.Error())
 	}
 
-	return c.String(200, "OK")
+	return c.String(200, filename)
 }

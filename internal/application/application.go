@@ -19,7 +19,7 @@ type UseCase interface {
 
 	UpdateUser(c context.Context, user *models.UserSession, dto *dto.Update) error
 	UpdatePassword(c context.Context, user *models.UserSession, dto *dto.ChangePassword) error
-	UpdatePhoto(c context.Context, user *models.UserSession, file []byte) error
+	UpdatePhoto(c context.Context, user *models.UserSession, file []byte) (string, error)
 }
 
 type AMQP interface {
@@ -27,10 +27,11 @@ type AMQP interface {
 }
 
 type useCase struct {
-	repo infrastructure.Repository
-	sms  infrastructure.SMS
-	s3   infrastructure.S3
-	amqp AMQP
+	repo       infrastructure.Repository
+	sms        infrastructure.SMS
+	s3         infrastructure.S3
+	amqp       AMQP
+	cdnBaseUrl string
 }
 
 func New(
@@ -38,11 +39,13 @@ func New(
 	sms infrastructure.SMS,
 	s3 infrastructure.S3,
 	amqp AMQP,
+	cdnBaseUrl string,
 ) *useCase {
 	return &useCase{
-		repo: repository,
-		sms:  sms,
-		s3:   s3,
-		amqp: amqp,
+		repo:       repository,
+		sms:        sms,
+		s3:         s3,
+		amqp:       amqp,
+		cdnBaseUrl: cdnBaseUrl,
 	}
 }

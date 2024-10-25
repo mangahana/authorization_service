@@ -40,7 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	useCase := application.New(repository, smsService, s3, publisher)
+	useCase := application.New(repository, smsService, s3, publisher, cfg.Server.CdnBaseUrl)
 
 	httpServer := http.New(useCase)
 	httpServer.Register()
