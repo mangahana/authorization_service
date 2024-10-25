@@ -12,6 +12,7 @@ type DBConfig struct {
 type ServerConfig struct {
 	HttpSocket string `env:"HTTP_SOCKET"`
 	GrpcSocket string `env:"GRPC_SOCKET"`
+	CdnBaseUrl string `env:"CDN_BASE_URL"`
 }
 
 type SMSConfig struct {

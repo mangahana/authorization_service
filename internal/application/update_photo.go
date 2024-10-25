@@ -18,25 +18,25 @@ import (
 
 var supportedFormats = []string{"image/jpeg", "image/png", "image/webp"}
 
-func (u *useCase) UpdatePhoto(c context.Context, user *models.UserSession, file []byte) error {
+func (u *useCase) UpdatePhoto(c context.Context, user *models.UserSession, file []byte) (string, error) {
 	mime := http.DetectContentType(file)
 
 	if !slices.Contains(supportedFormats, mime) {
-		return cerror.New(cerror.UNSUPPORTED_FORMAT, "UNSUPPORTED_FORMAT")
+		return "", cerror.New(cerror.UNSUPPORTED_FORMAT, "UNSUPPORTED_FORMAT")
 	}
 
 	resized, err := thumbnail(file, 512)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	filename, err := u.s3.Put(c, resized)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	if err := u.repo.UpdatePhoto(c, user.ID, filename); err != nil {
-		return err
+		return "", err
 	}
 
 	input := models.UpdateUserEvent{
@@ -46,7 +46,7 @@ func (u *useCase) UpdatePhoto(c context.Context, user *models.UserSession, file 
 	}
 	u.amqp.SendUserUpdateEvent(input)
 
-	return nil
+	return u.cdnBaseUrl + filename, nil
 }
 
 func thumbnail(file []byte, width int) ([]byte, error) {
