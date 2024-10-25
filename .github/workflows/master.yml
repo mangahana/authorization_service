@@ -42,6 +42,7 @@ jobs:
         run: |
          ssh github-action-user@${{ secrets.SERVER_IP }} "docker run --name authorization_service -d --network=host --restart=always \
           -v /var/www/static:/app/uploads \
+          -e CDN_BASE_URL=${{ secrets.CDN_BASE_URL }} \
           -e HTTP_SOCKET=${{ secrets.HTTP_SOCKET }} \
           -e GRPC_SOCKET=${{ secrets.GRPC_SOCKET }} \
           -e DB_HOST=${{ secrets.DB_HOST }} \
